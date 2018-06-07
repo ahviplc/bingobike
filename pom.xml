@@ -35,6 +35,22 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- 腾讯云短信接口依赖 -->
+		<dependency>
+		  <groupId>com.github.qcloudsms</groupId>
+		  <artifactId>qcloudsms</artifactId>
+		  <version>1.0.3</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+		<dependency>
+		    <groupId>redis.clients</groupId>
+		    <artifactId>jedis</artifactId>
+		    <version>2.9.0</version>
+		</dependency>
+
+		
 	</dependencies>
 
 	<build>

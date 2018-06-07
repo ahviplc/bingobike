@@ -29,5 +29,10 @@ public class Bike {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+	@Override
+	public String toString() {
+		return "Bike [id=" + id + ", longitude=" + longitude + ", latitude=" + latitude + ", status=" + status + "]";
+	}
+	
 	
 }

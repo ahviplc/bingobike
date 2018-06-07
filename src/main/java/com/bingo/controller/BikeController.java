@@ -13,7 +13,7 @@ public class BikeController {
 	@PostMapping(value = {"/addBike"})
 	@ResponseBody
 	public String addBike(@RequestBody Bike bike) {
-		
+		System.out.println(bike);
 		return "hello";
 	}
 }
