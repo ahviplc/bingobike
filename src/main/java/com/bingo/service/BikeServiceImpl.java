@@ -15,7 +15,7 @@ public class BikeServiceImpl implements BikeService {
 	@Override
 	public void save(Bike bike) {
 		// 将bike数据添加到mongodb中的bikes collection中
-		mongoTemplate.insert(bike, "bikes");
+		mongoTemplate.insert(bike);
 	}
 	
 }
