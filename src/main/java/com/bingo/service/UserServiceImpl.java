@@ -2,8 +2,14 @@ package com.bingo.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import com.bingo.model.User;
 import com.github.qcloudsms.SmsSingleSender;
 import com.github.qcloudsms.SmsSingleSenderResult;
 
@@ -14,6 +20,9 @@ import redis.clients.jedis.JedisPool;
 public class UserServiceImpl implements UserService {
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 	private static JedisPool pool = new JedisPool("redis://localhost:6379/3");
+	
+	@Autowired
+	private MongoTemplate mongoTemplate;
 	
 	@Override
 	public boolean sendMsg(String countryCode, String phoneNum) {
@@ -53,6 +62,21 @@ public class UserServiceImpl implements UserService {
 		jedis.close();
 		return code != null && code.equals(verifyCode);
 		
+	}
+
+	@Override
+	public void register(User user) {
+		mongoTemplate.insert(user);
+		
+	}
+
+	@Override
+	public void update(User user) {
+		// 更新对应用户的属性
+		mongoTemplate.updateFirst(
+				new Query(Criteria.where("phoneNum").is(user.getPhoneNum())), 
+				Update.update("deposit", user.getDeposit()), 
+				"users");
 	}
 	
 }
