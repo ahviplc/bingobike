@@ -73,10 +73,21 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void update(User user) {
 		// 更新对应用户的属性
-		mongoTemplate.updateFirst(
-				new Query(Criteria.where("phoneNum").is(user.getPhoneNum())), 
-				Update.update("deposit", user.getDeposit()), 
-				"users");
+		Update update = new Update();
+		if (user.getDeposit() != null) {
+			update.set("deposit", user.getDeposit());
+		} 
+		if (user.getStatus() != null) {
+			update.set("status", user.getStatus());
+		}
+		if (user.getName() != null) {
+			update.set("name", user.getName());
+		}
+		if (user.getIdNum() != null) {
+			update.set("idNum", user.getIdNum());
+		}
+		
+		mongoTemplate.updateFirst(new Query(Criteria.where("phoneNum").is(user.getPhoneNum())), update, "users");
 	}
 	
 }

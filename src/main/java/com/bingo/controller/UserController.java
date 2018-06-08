@@ -20,16 +20,33 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	/**
+	 * 发送验证码信息
+	 * @param countryCode
+	 * @param phoneNum
+	 * @return
+	 */
 	@GetMapping(value = {"/genCode"})
 	public boolean genVerifyCode(String countryCode, String phoneNum) {
 		return userService.sendMsg(countryCode, phoneNum);
 	}
 	
+	/**
+	 * 验证码验证
+	 * @param phoneNum
+	 * @param verifyCode
+	 * @return
+	 */
 	@PostMapping(value = {"/verify"})
 	public boolean verify(String phoneNum, String verifyCode) {
 		return userService.verify(phoneNum, verifyCode);
 	}
 	
+	/**
+	 * 用户注册
+	 * @param user
+	 * @return
+	 */
 	@PostMapping(value = {"/register"})
 	public boolean register(User user) {
 		// 调用useService保存用户信息
@@ -37,11 +54,16 @@ public class UserController {
 			userService.register(user);
 			return true;
 		} catch (Exception e) {
-			logger.error("注册失败" + e.getMessage());
+			logger.error("注册失败: " + e.getMessage());
 		}
 		return false;
 	}
 	
+	/**
+	 * 用户交押金
+	 * @param user
+	 * @return
+	 */
 	@PostMapping(value = {"/deposit"})
 	public boolean deposit(User user) {
 		try {
@@ -49,9 +71,24 @@ public class UserController {
 			userService.update(user);
 			return true;
 		} catch (Exception e) {
-			logger.error("更新信息失败" + e.getMessage());
+			logger.error("更新信息失败: " + e.getMessage());
 		}
 		return false;
 	}
 	
+	/**
+	 * 用户身份认证
+	 * @param user
+	 * @return
+	 */
+	@PostMapping(value = {"/identify"})
+	public boolean identify(User user) {
+		try {
+			userService.update(user);
+			return true;
+		} catch (Exception e) {
+			logger.error("实名认证失败:" + e.getMessage());
+		}
+		return false;
+	}
 }

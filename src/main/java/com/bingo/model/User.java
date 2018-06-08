@@ -16,6 +16,8 @@ public class User {
 	
 	private Double deposit;
 	
+	private Integer status;
+	
 	private Date regDate;
 	
 	private String nickName;
@@ -46,6 +48,14 @@ public class User {
 
 	public void setDeposit(Double deposit) {
 		this.deposit = deposit;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 	public Date getRegDate() {
