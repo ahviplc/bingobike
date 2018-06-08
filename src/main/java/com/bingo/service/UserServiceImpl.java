@@ -30,12 +30,7 @@ public class UserServiceImpl implements UserService {
 		    int code = (int)((Math.random() * 9 + 1) * 1000);
 		    SmsSingleSender ssender = new SmsSingleSender(appid, appkey);
 		    // 向对应手机号的用户发送短信
-		    SmsSingleSenderResult result = ssender.send(0, 
-		    											countryCode, 
-		    											phoneNum, 
-		    											"【为悦bike】你的验证码为：" + code + "。如非本人操作，请忽略本短信。" , 
-		    											"", 
-		    											"");
+		    SmsSingleSenderResult result = ssender.send(0, countryCode, phoneNum, "【为悦bike】你的验证码为：" + code + "。如非本人操作，请忽略本短信。" , "", "");
 		    
 			// 将发送的手机号作为key,验证码作为value保存到redis中(有效时长300s)
 		    jedis.setex(phoneNum, 300, code + "");
@@ -49,7 +44,14 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		return flag;
-		
+	}
+
+	@Override
+	public boolean verify(String phoneNum, String verifyCode) {
+		Jedis jedis = pool.getResource();
+		String code = jedis.get(phoneNum);
+		jedis.close();
+		return code != null && code.equals(verifyCode);
 		
 	}
 	
